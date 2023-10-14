@@ -13,11 +13,11 @@ def extract_text_from_pdf(pdf_path):
             text += reader.getPage(page_num).extractText()
     return text
 
-def translate_text(text, target_language, max_length=512):
+def translate_text(text, source_language, target_language, max_length=512):
     """
-    Translates text to the target language.
+    Translates text from source language to target language.
     """
-    model_name = f'Helsinki-NLP/opus-mt-{target_language}-en'
+    model_name = f'Helsinki-NLP/opus-mt-{source_language}-{target_language}'
     model = MarianMTModel.from_pretrained(model_name)
     tokenizer = MarianTokenizer.from_pretrained(model_name)
 
@@ -33,7 +33,6 @@ def translate_text(text, target_language, max_length=512):
     translated_text = " ".join(translated_segments)
     return translated_text
 
-
 def create_pdf_from_text(text, output_path):
     """
     Creates a PDF file from text.
@@ -46,8 +45,9 @@ def create_pdf_from_text(text, output_path):
 
 input_pdf_path = 'input.pdf'
 output_pdf_path = 'output.pdf'
-target_language = 'fr'
+source_language = 'en'
+target_language = 'es'
 
 text = extract_text_from_pdf(input_pdf_path)
-translated_text = translate_text(text, target_language)
+translated_text = translate_text(text, source_language, target_language)
 create_pdf_from_text(translated_text, output_pdf_path)
