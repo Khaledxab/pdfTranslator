@@ -1,6 +1,8 @@
 certifi==2023.7.22
+cffi==1.16.0
 charset-normalizer==3.3.0
 click==8.1.7
+cryptography==41.0.4
 filelock==3.12.4
 fpdf==1.7.2
 fsspec==2023.9.2
@@ -25,8 +27,12 @@ nvidia-nccl-cu12==2.18.1
 nvidia-nvjitlink-cu12==12.2.140
 nvidia-nvtx-cu12==12.1.105
 packaging==23.2
+pdfminer.six==20221105
+pdfplumber==0.10.2
 Pillow==10.0.1
+pycparser==2.21
 PyPDF2==1.26.0
+pypdfium2==4.21.0
 PyYAML==6.0.1
 regex==2023.10.3
 requests==2.31.0
