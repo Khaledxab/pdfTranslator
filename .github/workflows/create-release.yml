@@ -1,0 +1,29 @@
+name: Create GitHub Release
+
+on:
+  workflow_run:
+    workflows: ["Build and Deploy Docker Container"]
+    types:
+      - completed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "khaledxab"
+          git config --global user.email "khaledxab@gmail.com"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        run: |
+          git tag -a v1.0.0 -m "Release v1.0.0"
+          git push origin v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
