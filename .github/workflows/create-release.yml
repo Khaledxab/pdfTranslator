@@ -21,4 +21,4 @@ jobs:
           git tag -a v1.0.0 -m "Release v1.0.0"
           git push origin v1.0.0
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
