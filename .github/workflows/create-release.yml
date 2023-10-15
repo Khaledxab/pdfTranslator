@@ -16,10 +16,10 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "khaledxab"
-          git config --global user.email "khaledxab@gmail.com"
-
-      - name: Create GitHub Release
-        run: |
+          git config --global user.name "Your Name"
+          git config --global user.email "youremail@example.com"
           git tag -a v1.0.0 -m "Release v1.0.0"
-          git push origin v1.0.0
+          git push --tags https://github.com/<your-username>/<your-repo>.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
