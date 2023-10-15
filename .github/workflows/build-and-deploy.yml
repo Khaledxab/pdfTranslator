@@ -3,7 +3,7 @@ name: Build and Deploy Docker Container
 on:
   push:
     branches:
-      - main  # Change to your main branch
+      - main  
 
 jobs:
   build:
@@ -15,14 +15,10 @@ jobs:
 
       - name: Set up Docker
         run: |
-          docker build -t my-python-app .
+          docker build -t pdftranslation .
           echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker tag my-python-app ${{ secrets.DOCKERHUB_USERNAME }}/my-python-app
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-python-app
-
-      - name: Deploy to Docker Hub
+          docker tag pdftranslation ${{ secrets.DOCKERHUB_USERNAME }}/pdftranslation
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pdftranslation
         env:
-          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/my-python-app
+
