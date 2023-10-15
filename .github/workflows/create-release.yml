@@ -19,7 +19,7 @@ jobs:
           git config --global user.name "khaledxab"
           git config --global user.email "khaledxab@gmail.com"
           git tag -a v1.0.0 -m "Release v1.0.0"
-          git push --tags https://github.com/Khaledxab/pdfTranslator.git
+          git push origin --tags
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
