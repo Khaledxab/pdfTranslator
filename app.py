@@ -1,6 +1,7 @@
 import PyPDF2
 from fpdf import FPDF
 from transformers import MarianMTModel, MarianTokenizer
+from tqdm import tqdm
 
 def extract_text_from_pdf(pdf_path):
     """
@@ -24,7 +25,9 @@ def translate_text(text, source_language, target_language, max_length=512):
     text_segments = [text[i:i + max_length] for i in range(0, len(text), max_length)]
 
     translated_segments = []
-    for segment in text_segments:
+    
+    # Use tqdm for loading bar
+    for segment in tqdm(text_segments, desc="Translating", unit="segment"):
         inputs = tokenizer(segment, return_tensors='pt', padding=True, max_length=max_length, truncation=True)
         outputs = model.generate(**inputs)
         translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
@@ -45,8 +48,8 @@ def create_pdf_from_text(text, output_path):
 
 input_pdf_path = 'input.pdf'
 output_pdf_path = 'output.pdf'
-source_language = 'en'
-target_language = 'es'
+source_language = 'en'  
+target_language = 'es'  
 
 text = extract_text_from_pdf(input_pdf_path)
 translated_text = translate_text(text, source_language, target_language)
