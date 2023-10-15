@@ -5,20 +5,27 @@ on:
     workflows: ["Build and Deploy Docker Container"]
     types:
       - completed
+  push:
+    tags:
+      - 'v*' 
 
 jobs:
-  release:
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Git
-        run: |
-          git config --global user.name "Khaledxab"
-          git config --global user.email "khaledxab@gmail.com"
-          git tag -a v1.0.0 -m "Release v1.0.0"
-          git push origin v1.0.0
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
-          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
