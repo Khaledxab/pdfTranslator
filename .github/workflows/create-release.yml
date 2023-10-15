@@ -5,9 +5,6 @@ on:
     workflows: ["Build and Deploy Docker Container"]
     types:
       - completed
-  push:
-    tags:
-      - 'v*' 
 
 jobs:
   build:
@@ -16,16 +13,31 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Your Name"
+          git config --global user.email "youremail@example.com"
+          
+      - name: Get Latest Tag
+        id: latest_tag
+        run: |
+          latest_tag=$(git describe --abbrev=0 --tags)
+          echo "::set-output name=tag::$latest_tag"
+          
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.latest_tag.outputs.tag }}
+          release_name: Release ${{ steps.latest_tag.outputs.tag }}
           body: |
             Changes in this Release
             - First Change
             - Second Change
           draft: false
           prerelease: false
+          
+      - name: Push Tag to GitHub
+        run: git push origin ${{ steps.latest_tag.outputs.tag }}
