@@ -18,6 +18,7 @@ def translate_text(text, source_language, target_language, max_length=512):
     """
     Translates text from source language to target language.
     """
+    # change lng
     model_name = f'Helsinki-NLP/opus-mt-{source_language}-{target_language}'
     model = MarianMTModel.from_pretrained(model_name)
     tokenizer = MarianTokenizer.from_pretrained(model_name)
